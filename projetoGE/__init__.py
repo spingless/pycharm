@@ -14,3 +14,5 @@ Bcrypt = Bcrypt(app)
 Login_manager = LoginManager(app)
 Login_manager.login_view ='homepage'
 
+from projetoGE import routes, models
+
