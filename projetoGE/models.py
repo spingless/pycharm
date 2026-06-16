@@ -1,31 +1,24 @@
 from sqlalchemy.engine import default
-from projetoGE import database, Login_manager
+from projetoGE import database, login_manager
 from datetime import datetime
-from flask_login import UserMixin, login_manager
+from flask_login import UserMixin
 
 
-    class Usuario(database.Model, UserMixin):
-        id = database.Column(database.Integer, primary_key=True)
-        nome = database.Column(database.String(100), nullable=False)
-        email = database.Column(database.String(120), nullable=False, unique=True)
-        senha = database.Column(database.String(100), nullable=False)
-        cargo = database.Column(database.String(20), nullable=False, default='funcionario')
+class Gerente(database.Model, UserMixin):
+    id = database.Column(database.Integer, primary_key=True)
+    username = database.Column(database.String, nullable=False)
+    email = database.Column(database.String, nullable=False, unique=True)
+    senha = database.Column(database.String, nullable=False)
+    fotos = database.relationship("Foto", backref="usuario", lazy=True)
 
-        @login_manager.user_loader
-        def load_usuario(id):
-            return Usuario.query.get(int(id))
-
-
-
-    class Tarefa(database.Model):
-        id = database.Column(database.Integer, primary_key=True)
-        titulo = database.Column(database.String(100), nullable=False)
-        descricao = database.Column(database.String(200), nullable=False)
-        status = database.Column(database.String(30),nullable=False, default='pendente')
-        demanda = database.Column(database.String(20), nullable=False, default='baixa')
-        data_Criacao = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)
-        prazo = database.Column(database.DateTime, nullable=False)
-        id_Criador = database.Column(database.Integer, database.ForeignKey('usuario.id'), nullable=False)
-        id_Responsavel = database.Column(database.Integer, database.ForeignKey('usuario.id'), nullable=False)
+    @login_manager.user_loader
+    def load_user(id):
+        return Funcionario.query.get(int(id))
 
 
+class Funcionario(database.Model):
+    id = database.Column(database.Integer, primary_key=True)
+    imagem = database.Column(database.String, default='default.png')
+    cargo = database.Column(database.String, nullable=False)
+    data_criacao = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)
+    id_usuario = database.Column(database.Integer, database.ForeignKey('usuario.id'), nullable=False)
