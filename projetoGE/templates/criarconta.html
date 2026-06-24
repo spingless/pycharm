@@ -1,34 +1,55 @@
-{% extends "homepage.html"    %}
-
-
-{%block titulo %}
-Criar Conta
-{% end block%}
-
-{% block body%}
-<a href="{{url_for ('homepage')}}">Login</a>
-
-{% block formulario%}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {%block titulo%}
+        Criar Conta
+        {%endblock%}
+    </title>
+</head>
+<body>
+{%block body%}
+<h1>Crie sua conta aqui</h1>
+<hr>
+{%block formulario%}
+<form method="POST" >
     {{ form.csrf_token }}
+    <p>
+        {{form.username.label}}
+        {{form.username()}}
+    </p>
+    <p>
+        {{form.email.label}}
+        {{form.email()}}
+    </p>
+    <p>
+        {{form.cargo.label}}
+        {{form.cargo()}}
+    </p>
+
+    <p>
+        {{form.senha.label}}
+        {{form.senha()}}
+    </p>
+    <p>
+        {{form.confirma_senha.label}}
+        {{form.confirma_senha()}}
+    </p>
+    <p>
+        {{form.submit.label}}
+        {{form.submit()}}
+    </p>
+
+</form>
 
 
-    {{ form.email.label }}
-    {{ form.email() }}
-
-    {{ form.username.label }}
-    {{ form.username() }}
 
 
-    {{ form.confirma_senha.label }}
-    {{ form.confirma_senha() }}
+{%endblock%}
 
 
-    {{form.senha.label}}
-    {{form.senha()}}
+{%endblock%}
 
-    {{form.botaoSub}}
-
-    {%endblock%}
-
-{%endblock %}
+</body>
+</html>
